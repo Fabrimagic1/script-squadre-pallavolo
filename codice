@@ -1,0 +1,34 @@
+import itertools
+
+def crea_squadre_avvicinate():
+    numero_squadre = int(input("Inserisci il numero di squadre: "))
+    numero_persone_per_squadra = int(input("Inserisci il numero di persone per squadra: "))
+
+    variabili = {}
+    for i in range(numero_squadre * numero_persone_per_squadra):
+        nome_persona = input(f"Inserisci il nome della persona {i + 1}: ")
+        valore_persona = float(input(f"Inserisci il valore per {nome_persona}: "))
+        variabili[nome_persona] = valore_persona
+
+    persone = list(variabili.items())
+
+    migliori_squadre = None
+    differenza_media_minima = float('inf')
+
+    for combinazione in itertools.permutations(persone):
+        squadre = {i + 1: [] for i in range(numero_squadre)}
+        for i, (persona, valore) in enumerate(combinazione):
+            squadra_assegnata = i % numero_squadre + 1
+            squadre[squadra_assegnata].append((persona, valore))
+
+        somme_squadre = [sum(valore for _, valore in squadra) for squadra in squadre.values()]
+        differenza_media = sum(abs(somma - sum(somme_squadre) / numero_squadre) for somma in somme_squadre) / numero_squadre
+
+        if differenza_media < differenza_media_minima:
+            differenza_media_minima = differenza_media
+            migliori_squadre = squadre
+
+    return migliori_squadre
+
+risultato = crea_squadre_avvicinate()
+print(risultato)
