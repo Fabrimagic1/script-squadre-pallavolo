@@ -1,3 +1,4 @@
+%Leggi file README prima di utilizzarlo
 import itertools
 
 def crea_squadre_avvicinate():
